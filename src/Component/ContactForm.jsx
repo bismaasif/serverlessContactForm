@@ -2,36 +2,45 @@ import { useState } from 'react';
 import './ContactForm.css';
 import './../Firebase/Firebase.js';
 import firebase from 'firebase';
+import { connect } from 'react-redux';
+import {datasubmission} from './../Redux/userdata/userdataAction'
 
 
 
-const ContactForm=()=>{
+const ContactForm=({datasubmission})=>{
 
     var [email,setemail]=useState("");
     var [name,setname]=useState("");
     var [phone,setphone]=useState("");
     var[mess,setmess]=useState("");
     
-var firestore=firebase.firestore()
-    //add collection
-    var data =firestore.collection("form-info")
+// var firestore=firebase.firestore()
+//     //add collection
+//     var data =firestore.collection("form-info")
   
     var submit=(e)=>{
 e.preventDefault();
-console.log(name)
-console.log(email)
-console.log(mess)
+var data1={
+    name,
+    email,
+    phone,
+    mess
+}
+datasubmission(data1)
+// console.log(name)
+// console.log(email)
+// console.log(mess)
 
-data.doc().set({
-    name :name,
-    email :email,
-    phone: phone,
-    message:mess
-}).then( ()=>{
-    console.log("data saved")
-}).catch(( error)=>{
-    console.log(error)
-})
+// data.doc().set({
+//     name :name,
+//     email :email,
+//     phone: phone,
+//     message:mess
+// }).then( ()=>{
+//     console.log("data saved")
+// }).catch(( error)=>{
+//     console.log(error)
+// })
 
     }
     return(
@@ -59,4 +68,7 @@ data.doc().set({
     )
 
 }
-export default ContactForm;
+var actions={
+    datasubmission
+}
+export default connect(null,actions)( ContactForm);
